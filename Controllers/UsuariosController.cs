@@ -42,11 +42,13 @@ public class UsuariosController : Controller
         if (usuarioBD != null && usuarioBD.Contrasenia == usuario.Contrasenia)
         {
             HttpContext.Session.SetString("Usuario", usuarioBD.NombreUsuario);
+            HttpContext.Session.SetInt32("IdUsuario", usuarioBD.Id);
+
             return RedirectToAction("Bienvenida");
         }
 
-        ViewBag.Error = "Usuario o contraseña incorrectos";
-        return View(usuario);
+ViewBag.Error = "Usuario o contraseña incorrectos";
+return View(usuario);
     }
 
     [HttpPost]
