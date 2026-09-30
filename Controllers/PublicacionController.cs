@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TP07.Models;
+using RedSocial.Models;
 
 namespace TP07.Controllers;
 

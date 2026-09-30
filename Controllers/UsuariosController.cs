@@ -44,7 +44,7 @@ public class UsuariosController : Controller
             HttpContext.Session.SetString("Usuario", usuarioBD.NombreUsuario);
             HttpContext.Session.SetInt32("IdUsuario", usuarioBD.Id);
 
-            return RedirectToAction("Bienvenida");
+           return RedirectToAction("Index", "Publicacion");
         }
 
 ViewBag.Error = "Usuario o contraseña incorrectos";

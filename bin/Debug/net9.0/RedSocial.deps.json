@@ -8,9 +8,9 @@
     ".NETCoreApp,Version=v9.0": {
       "RedSocial/1.0.0": {
         "dependencies": {
+          "Dapper": "2.1.89",
           "Microsoft.AspNetCore.Session": "2.3.13",
-          "Microsoft.Data.SqlClient": "7.1.0",
-          "Dapper": "2.1.89"
+          "Microsoft.Data.SqlClient": "7.1.0"
         },
         "runtime": {
           "RedSocial.dll": {}

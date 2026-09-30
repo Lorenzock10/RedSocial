@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<h2>Iniciar Sesión</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form action="/Usuarios/Login" method="post">
+    <div class="mb-3">
+        <label for="NombreUsuario" class="form-label">Nombre de Usuario</label>
+        <input type="text" class="form-control" id="NombreUsuario" name="NombreUsuario" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Contrasenia" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="Contrasenia" name="Contrasenia" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    <a href="/Usuarios/Registro" class="btn btn-secondary">Registrarse</a>
+</form>
