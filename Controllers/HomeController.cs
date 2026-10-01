@@ -23,9 +23,20 @@ public class HomeController : Controller
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult RedSocial()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        string usuario = HttpContext.Session.GetString("Usuario");
+
+        if (string.IsNullOrEmpty(usuario))
+        {
+            return RedirectToAction("Login", "Usuarios");
+        }
+
+        BD bd = new BD();
+        var publicaciones = bd.ObtenerPublicaciones(0);
+
+        ViewBag.Usuario = usuario;
+        ViewBag.Publicaciones = publicaciones;
+        return View();
     }
 }

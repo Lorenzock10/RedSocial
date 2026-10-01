@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Red Social";
+    var publicaciones = ViewBag.Publicaciones as List<RedSocial.Models.Publicacion> ?? new List<RedSocial.Models.Publicacion>();
+}
+
+<div class="social-shell">
+    <main class="social-main">
+        @if (TempData["ErrorPublicacion"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorPublicacion"]</div>
+        }
+
+        @if (TempData["MensajePublicacion"] != null)
+        {
+            <div class="alert alert-success">@TempData["MensajePublicacion"]</div>
+        }
+
+        <section class="composer card">
+            <div class="composer-header">
+                <h3>Crear publicación</h3>
+            </div>
+
+            <form asp-controller="Publicacion" asp-action="CrearPublicacion" method="post" enctype="multipart/form-data" class="composer-form">
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="¿Qué querés compartir?" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Escribí algo interesante..." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Publicar</button>
+            </form>
+        </section>
+
+        <section class="feed">
+            @if (publicaciones.Count == 0)
+            {
+                <div class="alert alert-info">Todavía no hay publicaciones.</div>
+            }
+            else
+            {
+                foreach (var publicacion in publicaciones)
+                {
+                    var imagen = string.IsNullOrWhiteSpace(publicacion.Imagen) ? "/img/default-post.jpg" : "/uploads/" + publicacion.Imagen;
+
+                    <article class="post card">
+                        <div class="post-header">
+                            <div class="post-user">
+                                <div class="mini-avatar">@publicacion.IdUsuario.ToString().Substring(0, 1)</div>
+                                <div>
+                                    <strong>@ViewBag.Usuario</strong>
+                                    <small>@publicacion.Fecha</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-body">
+                            <h4>@publicacion.Titulo</h4>
+                            <p>@publicacion.Descripcion</p>
+                            <img src="@imagen" alt="Publicación" />
+                        </div>
+
+                        <div class="post-actions">
+                            <button class="btn btn-like">❤ 0 Me gusta</button>
+                            <button class="btn btn-comment">💬 0 Comentarios</button>
+                        </div>
+                    </article>
+                }
+            }
+        </section>
+    </main>
+</div>

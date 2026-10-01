@@ -1,75 +1,53 @@
 using Microsoft.AspNetCore.Mvc;
 using RedSocial.Models;
 
-namespace TP07.Controllers;
+namespace RedSocial.Controllers;
 
 public class PublicacionController : Controller
 {
+    [HttpGet]
     public IActionResult Index()
     {
-        BD bd = new BD();
-        List<Publicacion> publicaciones = bd.ObtenerPublicaciones(0);
-
-        return View(publicaciones);
+        return RedirectToAction("RedSocial", "Home");
     }
 
     [HttpPost]
-    public IActionResult CrearPublicacion(string titulo, string descripcion, string imagen)
+    public IActionResult CrearPublicacion(string titulo, string descripcion, IFormFile imagen)
     {
-        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
+        int? idUsuario = HttpContext.Session.GetInt32("IdUsuario");
 
-        BD bd = new BD();
-        bd.CrearPublicacion(titulo, descripcion, imagen, idUsuario);
-
-        return RedirectToAction("Index");
-    }
-
-    [HttpPost]
-    public IActionResult DarMeGusta(int idPublicacion)
-    {
-        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
-
-        BD bd = new BD();
-        bool yaDioMeGusta = bd.ExisteMeGusta(idPublicacion, idUsuario);
-
-        if (yaDioMeGusta)
+        if (!idUsuario.HasValue)
         {
-            bd.EliminarMeGusta(idPublicacion, idUsuario);
-        }
-        else
-        {
-            bd.AgregarMeGusta(idPublicacion, idUsuario);
+            return RedirectToAction("Login", "Usuarios");
         }
 
-        int cantidadLikes = bd.ObtenerCantidadMeGusta(idPublicacion);
+        if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(descripcion))
+        {
+            TempData["ErrorPublicacion"] = "El título y la descripción son obligatorios.";
+            return RedirectToAction("RedSocial", "Home");
+        }
 
-        ViewBag.CantidadLikes = cantidadLikes;
+        string nombreArchivo = "sin-imagen.jpg";
 
-        return View();
-    }
+        if (imagen != null && imagen.Length > 0)
+        {
+            string carpetaUploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            Directory.CreateDirectory(carpetaUploads);
 
-    [HttpPost]
-    public IActionResult Comentar(int idPublicacion, string texto)
-    {
-        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
+            string extension = Path.GetExtension(imagen.FileName);
+            nombreArchivo = $"{Guid.NewGuid()}{extension}";
+            string rutaCompleta = Path.Combine(carpetaUploads, nombreArchivo);
+
+            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+            {
+                imagen.CopyTo(stream);
+            }
+        }
 
         BD bd = new BD();
-        bd.AgregarComentario(idPublicacion, idUsuario, texto);
+        bd.CrearPublicacion(titulo.Trim(), descripcion.Trim(), nombreArchivo, idUsuario.Value);
 
-        string nombreUsuario = bd.ObtenerNombreUsuario(idUsuario);
-
-        ViewBag.NombreUsuario = nombreUsuario;
-        ViewBag.Texto = texto;
-
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult ObtenerMas(int desde)
-    {
-        BD bd = new BD();
-        List<Publicacion> publicaciones = bd.ObtenerPublicaciones(desde);
-
-        return View(publicaciones);
+        TempData["MensajePublicacion"] = "Publicación creada correctamente.";
+        return RedirectToAction("RedSocial", "Home");
     }
 }

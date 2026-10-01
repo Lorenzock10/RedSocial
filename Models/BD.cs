@@ -14,7 +14,7 @@ public Usuarios ObtenerUsuario(string nombreUsuario)
 {
     using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        string query = @"SELECT * FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
+        string query = @"SELECT Id, NombreUsuario, Contraseña AS Contrasenia, Nombre, Apellido FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
         return connection.QueryFirstOrDefault<Usuarios>(query, new { NombreUsuario = nombreUsuario });
     }
 }

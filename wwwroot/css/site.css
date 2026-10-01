@@ -19,6 +19,7 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: #f5f7fb;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,4 +29,118 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.social-shell {
+  max-width: 900px;
+  margin: 20px auto 0;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e7e7e7;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.social-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.composer {
+  padding: 20px;
+}
+
+.composer-header h3 {
+  margin: 0 0 15px;
+}
+
+.post {
+  padding: 20px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.post-user {
+  display: flex;
+  align-items: center;
+}
+
+.post-user strong,
+.post-user small {
+  display: block;
+}
+
+.post-user small {
+  color: #7c7c7c;
+}
+
+.mini-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b7cff, #7a4dff);
+  color: white;
+  font-weight: bold;
+}
+
+.post-body h4 {
+  margin-bottom: 10px;
+}
+
+.post-body img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-like,
+.btn-comment {
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #333;
+}
+
+.comments-box {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.comment-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.comment-form input {
+  flex: 1;
 }
