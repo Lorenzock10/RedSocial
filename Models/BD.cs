@@ -52,20 +52,20 @@ public class BD
     }
 
     public void CrearPublicacion(string titulo, string descripcion, string imagen, int idUsuario)
+{
+    using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            string query = @" INSERT INTO Publicaciones (IdUsuario, Titulo, Descripcion, Imagen, FechaPublicacion) VALUES (@IdUsuario, @Titulo, @Descripcion, @Imagen, GETDATE())";
+        string query = @"INSERT INTO Publicaciones (IdUsuario, Titulo, Descripcion, Imagen, FechaPublicacion) VALUES (@IdUsuario, @Titulo, @Descripcion, @Imagen, GETDATE())";
 
-            connection.Execute(query, new
-            {
-                IdUsuario = idUsuario,
-                Titulo = titulo,
-                Descripcion = descripcion,
-                Imagen = imagen
-            });
-        }
+        connection.Execute(query, new
+        {
+            IdUsuario = idUsuario,
+            Titulo = titulo,
+            Descripcion = descripcion ?? "",
+            Imagen = imagen ?? ""
+        });
     }
+}
 
     public List<Publicacion> ObtenerPublicaciones(int desde)
     {

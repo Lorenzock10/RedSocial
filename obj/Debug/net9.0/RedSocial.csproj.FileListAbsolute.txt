@@ -505,7 +505,6 @@ C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\RedSocial.sourcelink.json
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\scopedcss\bundle\RedSocial.styles.css
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\scopedcss\projectbundle\RedSocial.bundle.scp.css
-C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\omzjiqyr3b-0t4vbql6ge.gz
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\cl4zaj89ge-61n19gt1b8.gz
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\r0r8r18tfb-t1cqhe9u97.gz
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\ew0lf8u8f5-c2jlpeoesf.gz
@@ -585,3 +584,4 @@ C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\RedSocial.genruntimeconfig.c
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\ref\RedSocial.dll
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\anaxi1rylr-643vkvfrvt.gz
 C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\0tf3mfktfd-4u38wlqf4l.gz
+C:\Users\cejua\Downloads\RedSocial\obj\Debug\net9.0\compressed\omzjiqyr3b-lbylahuwte.gz
