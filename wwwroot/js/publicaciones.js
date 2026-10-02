@@ -1,8 +1,7 @@
 function darMeGusta(idPublicacion)
 {
-    fetch('/Publicacion/DarMeGusta?idPublicacion=' + idPublicacion, {
-        method: 'POST',
-        headers: {
+    fetch('/Publicacion/DarMeGusta?idPublicacion=' + idPublicacion, {method: 'POST', headers: 
+        {
             'Content-Type': 'application/json'
         }
     })

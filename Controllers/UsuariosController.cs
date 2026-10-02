@@ -91,21 +91,7 @@ return View(usuario);
         return RedirectToAction("Login");
     }
 
-    public IActionResult Bienvenida()
-    {
-        string nombreUsuario = HttpContext.Session.GetString("Usuario");
-
-        if (nombreUsuario == null)
-        {
-            return RedirectToAction("Login");
-        }
-
-        BD bd = new BD();
-        Usuarios usuario = bd.ObtenerUsuario(nombreUsuario);
-
-        return View(usuario);
-    }
-
+    
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();

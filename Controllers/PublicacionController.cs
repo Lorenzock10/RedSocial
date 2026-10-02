@@ -91,10 +91,7 @@ public class PublicacionController : Controller
 
         bd.AgregarComentario(idPublicacion, idUsuario, texto);
 
-        Comentarios comentario = bd.ObtenerUltimoComentario(
-            idPublicacion,
-            idUsuario
-        );
+        Comentarios comentario = bd.ObtenerUltimoComentario(idPublicacion, idUsuario);
 
         return Json(new
         {
