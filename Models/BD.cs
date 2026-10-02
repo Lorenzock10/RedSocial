@@ -5,8 +5,8 @@ namespace RedSocial.Models;
 
 public class BD
 {   
-    private string _connectionString = @"Server=localhost; DataBase=TP06; Integrated Security=True;TrustServerCertificate=True;";
-    
+    private string _connectionString = @"Server=localhost; DataBase=DBRedSocial; Integrated Security=True; TrustServerCertificate=True;";
+
     public Usuarios ObtenerUsuario(string nombreUsuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))

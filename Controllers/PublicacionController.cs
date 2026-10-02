@@ -7,6 +7,11 @@ public class PublicacionController : Controller
 {
     public IActionResult Index()
     {
+        if (HttpContext.Session.GetInt32("IdUsuario") == null)
+        {
+            return RedirectToAction("Registro", "Usuarios");
+        }
+
         BD bd = new BD();
 
         List<Publicacion> publicaciones = bd.ObtenerPublicaciones(0);
