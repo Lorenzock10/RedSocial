@@ -23,9 +23,9 @@
     </div>
 
     <div>
-        <label>Imagen</label>
-        <input type="text" name="imagen" placeholder="ejemplo.jpg" />
-    </div>
+    <label>Imagen</label>
+    <input type="text" name="imagen" placeholder="Pegá el link de la imagen" />
+</div>
 
     <button type="submit">
         Publicar
@@ -56,7 +56,7 @@
 
             @if (!string.IsNullOrEmpty(publicacion.Imagen))
             {
-                <img src="/imagenes/@publicacion.Imagen" width="300" />
+                <img src="@publicacion.Imagen" width="300" />
             }
 
             <br />
@@ -96,10 +96,7 @@
 
             <br />
 
-            <input
-                type="text"
-                id="texto-@publicacion.Id"
-                placeholder="Escribí un comentario..." />
+            <input type="text" id="texto-@publicacion.Id" placeholder="Escribí un comentario..." />
 
             <button onclick="comentar(@publicacion.Id)">
                 Comentar
