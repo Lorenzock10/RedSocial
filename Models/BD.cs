@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 namespace RedSocial.Models;
 
 public class BD
-{
-    private string _connectionString = @"Server=(localdb)\MSSQLLocalDB; DataBase=DBRedSocial; Integrated Security=True; TrustServerCertificate=True;";
-
+{   
+    private string _connectionString = @"Server=localhost; DataBase=TP06; Integrated Security=True;TrustServerCertificate=True;";
+    
     public Usuarios ObtenerUsuario(string nombreUsuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -42,10 +42,7 @@ public class BD
         {
             string query = @"SELECT TOP 1 1 FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
 
-            int existe = connection.ExecuteScalar<int>(
-            query,
-            new { NombreUsuario = nombreUsuario }
-            );
+            int existe = connection.ExecuteScalar<int>(query,new { NombreUsuario = nombreUsuario });
 
         return existe == 1;
         }
