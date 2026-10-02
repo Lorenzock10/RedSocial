@@ -1,53 +1,128 @@
 using Microsoft.AspNetCore.Mvc;
 using RedSocial.Models;
 
-namespace RedSocial.Controllers;
+namespace TP07.Controllers;
 
 public class PublicacionController : Controller
 {
-    [HttpGet]
     public IActionResult Index()
     {
-        return RedirectToAction("RedSocial", "Home");
+        BD bd = new BD();
+
+        List<Publicacion> publicaciones = bd.ObtenerPublicaciones(0);
+
+        foreach (Publicacion publicacion in publicaciones)
+        {
+            publicacion.Comentarios = bd.ObtenerComentarios(publicacion.Id);
+        }
+
+        return View(publicaciones);
     }
 
     [HttpPost]
-    public IActionResult CrearPublicacion(string titulo, string descripcion, IFormFile imagen)
+    public IActionResult CrearPublicacion(string titulo, string descripcion, string imagen)
     {
-        int? idUsuario = HttpContext.Session.GetInt32("IdUsuario");
+        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
 
-        if (!idUsuario.HasValue)
+        BD bd = new BD();
+
+        bd.CrearPublicacion(titulo, descripcion, imagen, idUsuario);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult DarMeGusta(int idPublicacion)
+    {
+        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
+
+        BD bd = new BD();
+
+        if (!bd.ExistePublicacion(idPublicacion))
         {
-            return RedirectToAction("Login", "Usuarios");
-        }
-
-        if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(descripcion))
-        {
-            TempData["ErrorPublicacion"] = "El título y la descripción son obligatorios.";
-            return RedirectToAction("RedSocial", "Home");
-        }
-
-        string nombreArchivo = "sin-imagen.jpg";
-
-        if (imagen != null && imagen.Length > 0)
-        {
-            string carpetaUploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-            Directory.CreateDirectory(carpetaUploads);
-
-            string extension = Path.GetExtension(imagen.FileName);
-            nombreArchivo = $"{Guid.NewGuid()}{extension}";
-            string rutaCompleta = Path.Combine(carpetaUploads, nombreArchivo);
-
-            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+            return Json(new
             {
-                imagen.CopyTo(stream);
-            }
+                error = "La publicación no existe."
+            });
+        }
+
+        bool yaDioMeGusta = bd.ExisteMeGusta(idPublicacion, idUsuario);
+
+        if (yaDioMeGusta)
+        {
+            bd.EliminarMeGusta(idPublicacion, idUsuario);
+        }
+        else
+        {
+            bd.AgregarMeGusta(idPublicacion, idUsuario);
+        }
+
+        int cantidadLikes = bd.ObtenerCantidadMeGusta(idPublicacion);
+
+        return Json(new
+        {
+            cantidadLikes = cantidadLikes,
+            meGusta = !yaDioMeGusta
+        });
+    }
+
+    [HttpPost]
+    public IActionResult Comentar(int idPublicacion, string texto)
+    {
+        int idUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
+
+        if (string.IsNullOrWhiteSpace(texto))
+        {
+            return Json(new
+            {
+                error = "El comentario no puede estar vacío."
+            });
         }
 
         BD bd = new BD();
-        bd.CrearPublicacion(titulo.Trim(), descripcion.Trim(), nombreArchivo, idUsuario.Value);
 
-        TempData["MensajePublicacion"] = "Publicación creada correctamente.";
-        return RedirectToAction("RedSocial", "Home");
+        if (!bd.ExistePublicacion(idPublicacion))
+        {
+            return Json(new
+            {
+                error = "La publicación no existe."
+            });
+        }
+
+        bd.AgregarComentario(idPublicacion, idUsuario, texto);
+
+        Comentarios comentario = bd.ObtenerUltimoComentario(
+            idPublicacion,
+            idUsuario
+        );
+
+        return Json(new
+        {
+            id = comentario.Id,
+            nombreUsuario = comentario.NombreUsuario,
+            texto = comentario.Texto,
+            fechaComentario = comentario.FechaComentario
+        });
+    }
+
+    [HttpGet]
+    public IActionResult ObtenerMas(int desde)
+    {
+        BD bd = new BD();
+
+        List<Publicacion> publicaciones = bd.ObtenerPublicaciones(desde);
+
+        foreach (Publicacion publicacion in publicaciones)
+        {
+            publicacion.Comentarios = bd.ObtenerComentarios(publicacion.Id);
+        }
+
+        bool hayMas = bd.HayMasPublicaciones(desde + publicaciones.Count);
+
+        return Json(new
+        {
+            publicaciones = publicaciones,
+            hayMas = hayMas
+        });
     }
 }

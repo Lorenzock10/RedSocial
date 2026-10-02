@@ -3,8 +3,10 @@ namespace RedSocial.Models;
 public class Comentarios
 {
     public int Id { get; set; }
-    public string IdPublicacion { get; set; }
-    public string IdUsuario { get; set; }
+    public int IdPublicacion { get; set; }
+    public int IdUsuarioComenta { get; set; }
     public string Texto { get; set; }
-    public string Fecha { get; set; }
+    public DateTime FechaComentario { get; set; }
+
+    public string NombreUsuario { get; set; }
 }

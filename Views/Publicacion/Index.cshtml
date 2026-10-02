@@ -1,0 +1,122 @@
+﻿@model List<RedSocial.Models.Publicacion>
+
+<h1>RED SOCIAL</h1>
+
+<a asp-controller="Usuarios" asp-action="Logout">
+    Cerrar sesión
+</a>
+
+<hr />
+
+<h2>Crear publicación</h2>
+
+<form asp-controller="Publicacion" asp-action="CrearPublicacion" method="post">
+
+    <div>
+        <label>Título</label>
+        <input type="text" name="titulo" />
+    </div>
+
+    <div>
+        <label>Descripción</label>
+        <textarea name="descripcion"></textarea>
+    </div>
+
+    <div>
+        <label>Imagen</label>
+        <input type="text" name="imagen" placeholder="ejemplo.jpg" />
+    </div>
+
+    <button type="submit">
+        Publicar
+    </button>
+
+</form>
+
+<hr />
+
+<div id="publicaciones">
+
+    @foreach (var publicacion in Model)
+    {
+        <div class="publicacion" data-id="@publicacion.Id">
+
+            <h2>@publicacion.Titulo</h2>
+
+            <p>@publicacion.Descripcion</p>
+
+            <p>
+                Publicado por:
+                <strong>@publicacion.NombreUsuario</strong>
+            </p>
+
+            <p>
+                @publicacion.FechaPublicacion
+            </p>
+
+            @if (!string.IsNullOrEmpty(publicacion.Imagen))
+            {
+                <img src="/imagenes/@publicacion.Imagen" width="300" />
+            }
+
+            <br />
+
+            <button onclick="darMeGusta(@publicacion.Id)">
+                Me Gusta
+            </button>
+
+            <span id="likes-@publicacion.Id">
+                @publicacion.CantidadMeGusta
+            </span>
+
+            <h3>Comentarios</h3>
+
+            <div id="comentarios-@publicacion.Id">
+
+                @foreach (var comentario in publicacion.Comentarios)
+                {
+                    <div class="comentario">
+
+                        <strong>
+                            @comentario.NombreUsuario
+                        </strong>
+
+                        <p>
+                            @comentario.Texto
+                        </p>
+
+                        <small>
+                            @comentario.FechaComentario
+                        </small>
+
+                    </div>
+                }
+
+            </div>
+
+            <br />
+
+            <input
+                type="text"
+                id="texto-@publicacion.Id"
+                placeholder="Escribí un comentario..." />
+
+            <button onclick="comentar(@publicacion.Id)">
+                Comentar
+            </button>
+
+            <hr />
+
+        </div>
+    }
+
+</div>
+
+@if (Model.Count == 10)
+{
+    <button id="btnVerMas" onclick="obtenerMas()">
+        Ver más
+    </button>
+}
+
+<script src="~/js/publicaciones.js"></script>

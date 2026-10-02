@@ -5,171 +5,204 @@ namespace RedSocial.Models;
 
 public class BD
 {
+    private string _connectionString = @"Server=(localdb)\MSSQLLocalDB; DataBase=DBRedSocial; Integrated Security=True; TrustServerCertificate=True;";
 
-
-private string _connectionString = @"Server=localhost; DataBase = DBRedSocial; Integrated Security = True; TrustServerCertificate = True;";
-
-
-public Usuarios ObtenerUsuario(string nombreUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public Usuarios ObtenerUsuario(string nombreUsuario)
     {
-        string query = @"SELECT Id, NombreUsuario, Contraseña AS Contrasenia, Nombre, Apellido FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
-        return connection.QueryFirstOrDefault<Usuarios>(query, new { NombreUsuario = nombreUsuario });
-    }
-}
-
-
-
-public void RegistrarUsuario(Usuarios usuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
-    {
-        string query = @"INSERT INTO Usuarios (NombreUsuario, Contraseña, Nombre, Apellido) VALUES (@NombreUsuario, @Contrasenia, @Nombre, @Apellido)";
-
-        connection.Execute(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            NombreUsuario = usuario.NombreUsuario,
-            Contrasenia = usuario.Contrasenia,
-            Nombre = usuario.Nombre,
-            Apellido = usuario.Apellido
-        });
+            string query = @"SELECT Id, NombreUsuario, Contraseña AS Contrasenia, Nombre, Apellido FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
+
+            return connection.QueryFirstOrDefault<Usuarios>(query, new
+            {
+                NombreUsuario = nombreUsuario
+            });
+        }
     }
-}
 
-
-
-public bool ExisteUsuario(string nombreUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public void RegistrarUsuario(Usuarios usuario)
     {
-        string query = @"SELECT TOP 1 1 FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
-        int? existe = connection.ExecuteScalar<int?>(query, new { NombreUsuario = nombreUsuario });
-        return existe.HasValue && existe.Value == 1;
-    }
-}
-
-
-public void CrearPublicacion(string titulo, string descripcion, string imagen, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
-    {
-        string query = @"INSERT INTO Publicaciones (IdUsuario, Titulo, Descripcion, Imagen, FechaPublicacion) VALUES (@IdUsuario, @Titulo, @Descripcion, @Imagen, GETDATE())";
-
-        connection.Execute(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            IdUsuario = idUsuario,
-            Titulo = titulo,
-            Descripcion = descripcion,
-            Imagen = imagen
-        });
+            string query = @"INSERT INTO Usuarios (NombreUsuario, Contraseña, Nombre, Apellido) VALUES (@NombreUsuario, @Contrasenia, @Nombre, @Apellido)";
+
+            connection.Execute(query, new
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                Contrasenia = usuario.Contrasenia,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido
+            });
+        }
     }
-}
 
-
-public List<Publicacion> ObtenerPublicaciones(int desde)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public bool ExisteUsuario(string nombreUsuario)
     {
-        string query = @"SELECT * FROM Publicaciones ORDER BY FechaPublicacion DESC OFFSET @Desde ROWS FETCH NEXT 10 ROWS ONLY";
-
-        return connection.Query<Publicacion>(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            Desde = desde
-        }).ToList();
+            string query = @"SELECT TOP 1 1 FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
+
+            int existe = connection.ExecuteScalar<int>(
+            query,
+            new { NombreUsuario = nombreUsuario }
+            );
+
+        return existe == 1;
+        }
     }
-}
 
-
-public bool ExisteMeGusta(int idPublicacion, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public void CrearPublicacion(string titulo, string descripcion, string imagen, int idUsuario)
     {
-        string query = @"SELECT TOP 1 1 FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion AND IdUsuario = @IdUsuario";
-
-        int? existe = connection.ExecuteScalar<int?>(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            IdPublicacion = idPublicacion,
-            IdUsuario = idUsuario
-        });
+            string query = @" INSERT INTO Publicaciones (IdUsuario, Titulo, Descripcion, Imagen, FechaPublicacion) VALUES (@IdUsuario, @Titulo, @Descripcion, @Imagen, GETDATE())";
 
-        return existe.HasValue;
+            connection.Execute(query, new
+            {
+                IdUsuario = idUsuario,
+                Titulo = titulo,
+                Descripcion = descripcion,
+                Imagen = imagen
+            });
+        }
     }
-}
 
-
-public void AgregarMeGusta(int idPublicacion, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public List<Publicacion> ObtenerPublicaciones(int desde)
     {
-        string query = @"INSERT INTO PublicacionesMeGusta (IdPublicación, IdUsuario) VALUES (@IdPublicacion, @IdUsuario)";
-
-        connection.Execute(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            IdPublicacion = idPublicacion,
-            IdUsuario = idUsuario
-        });
+            string query = @" SELECT P.Id, P.IdUsuario, P.Titulo,  P.Descripcion, P.Imagen, P.FechaPublicacion, U.NombreUsuario, (SELECT COUNT(*) FROM PublicacionesMeGusta  WHERE IdPublicación = P.Id) AS CantidadMeGusta FROM Publicaciones P INNER JOIN Usuarios U ON P.IdUsuario = U.Id ORDER BY P.FechaPublicacion DESC OFFSET @Desde ROWS FETCH NEXT 10 ROWS ONLY";
+
+            return connection.Query<Publicacion>(query, new
+            {
+                Desde = desde
+            }).ToList();
+        }
     }
-}
 
-
-public void EliminarMeGusta(int idPublicacion, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public List<Comentarios> ObtenerComentarios(int idPublicacion)
     {
-        string query = @"DELETE FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion AND IdUsuario = @IdUsuario";
-
-        connection.Execute(query, new
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            IdPublicacion = idPublicacion,
-            IdUsuario = idUsuario
-        });
+            string query = @" SELECT C.Id, C.IdPublicacion, C.IdUsuarioComenta, C.Texto, C.FechaComentario, U.NombreUsuario FROM Comentarios C INNER JOIN Usuarios U  ON C.IdUsuarioComenta = U.Id WHERE C.IdPublicacion = @IdPublicacion ORDER BY C.FechaComentario ASC";
+
+            return connection.Query<Comentarios>(query, new
+            {
+                IdPublicacion = idPublicacion
+            }).ToList();
+        }
     }
-}
 
-
-public int ObtenerCantidadMeGusta(int idPublicacion)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public bool ExistePublicacion(int idPublicacion)
     {
-        string query = @"SELECT COUNT(*) FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion";
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" SELECT TOP 1 1 FROM Publicaciones WHERE Id = @IdPublicacion";
 
-        return connection.ExecuteScalar<int>(query, new
+            int existe = connection.ExecuteScalar<int>(query, new
         {
             IdPublicacion = idPublicacion
         });
+
+        return existe == 1;
+        }
     }
-}
 
-
-public void AgregarComentario(int idPublicacion, int idUsuario, string texto)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public bool ExisteMeGusta(int idPublicacion, int idUsuario)
     {
-        string query = @"INSERT INTO Comentarios (IdPublicacion, IdUsuarioComenta, Texto, FechaComentario) VALUES (@IdPublicacion, @IdUsuario, @Texto, GETDATE())";
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" SELECT TOP 1 1 FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion AND IdUsuario = @IdUsuario";
 
-        connection.Execute(query, new
+            int existe = connection.ExecuteScalar<int>(query, new
         {
             IdPublicacion = idPublicacion,
-            IdUsuario = idUsuario,
-            Texto = texto
-        });
-    }
-}
-
-
-public string ObtenerNombreUsuario(int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
-    {
-        string query = @"SELECT NombreUsuario FROM Usuarios WHERE Id = @IdUsuario";
-
-        return connection.ExecuteScalar<string>(query, new
-        {
             IdUsuario = idUsuario
         });
+
+return existe == 1;
+        }
     }
-}
 
+    public void AgregarMeGusta(int idPublicacion, int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" INSERT INTO PublicacionesMeGusta (IdPublicación, IdUsuario) VALUES (@IdPublicacion, @IdUsuario)";
 
+            connection.Execute(query, new
+            {
+                IdPublicacion = idPublicacion,
+                IdUsuario = idUsuario
+            });
+        }
+    }
+
+    public void EliminarMeGusta(int idPublicacion, int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" DELETE FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion AND IdUsuario = @IdUsuario";
+
+            connection.Execute(query, new
+            {
+                IdPublicacion = idPublicacion,
+                IdUsuario = idUsuario
+            });
+        }
+    }
+
+    public int ObtenerCantidadMeGusta(int idPublicacion)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" SELECT COUNT(*) FROM PublicacionesMeGusta WHERE IdPublicación = @IdPublicacion";
+
+            return connection.ExecuteScalar<int>(query, new
+            {
+                IdPublicacion = idPublicacion
+            });
+        }
+    }
+
+    public void AgregarComentario(int idPublicacion, int idUsuario, string texto)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" INSERT INTO Comentarios (IdPublicacion, IdUsuarioComenta, Texto, FechaComentario) VALUES  (@IdPublicacion, @IdUsuario, @Texto, GETDATE())";
+
+            connection.Execute(query, new
+            {
+                IdPublicacion = idPublicacion,
+                IdUsuario = idUsuario,
+                Texto = texto
+            });
+        }
+    }
+
+    public Comentarios ObtenerUltimoComentario(int idPublicacion, int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @" SELECT TOP 1 C.Id, C.IdPublicacion, C.IdUsuarioComenta, C.Texto, C.FechaComentario, U.NombreUsuario FROM Comentarios C INNER JOIN Usuarios U ON C.IdUsuarioComenta = U.Id WHERE C.IdPublicacion = @IdPublicacion  AND C.IdUsuarioComenta = @IdUsuario ORDER BY C.Id DESC";
+
+            return connection.QueryFirstOrDefault<Comentarios>(query, new
+            {
+                IdPublicacion = idPublicacion,
+                IdUsuario = idUsuario
+            });
+        }
+    }
+
+    public bool HayMasPublicaciones(int desde)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = @"SELECT COUNT(*) FROM Publicaciones";
+
+            int cantidad = connection.ExecuteScalar<int>(query);
+
+            return desde < cantidad;
+        }
+    }
 }

@@ -19,7 +19,6 @@ html {
 
 body {
   margin-bottom: 60px;
-  background: #f5f7fb;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -31,116 +30,144 @@ body {
   text-align: start;
 }
 
-.social-shell {
-  max-width: 900px;
-  margin: 20px auto 0;
+/* Estilos personalizados para la página de publicaciones */
+.publicacion {
+  background: #ffffff;
+  border: 1px solid #e6e9ee;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(32,40,60,0.06);
 }
 
-.card {
-  background: #fff;
-  border: 1px solid #e7e7e7;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+.publicacion h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: #253858;
 }
 
-.social-main {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.publicacion p {
+  color: #3b4758;
+  line-height: 1.4;
 }
 
-.composer {
-  padding: 20px;
-}
-
-.composer-header h3 {
-  margin: 0 0 15px;
-}
-
-.post {
-  padding: 20px;
-}
-
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.post-user {
-  display: flex;
-  align-items: center;
-}
-
-.post-user strong,
-.post-user small {
+.publicacion img {
+  max-width: 100%;
+  height: auto;
   display: block;
+  margin: 12px 0;
+  border-radius: 6px;
 }
 
-.post-user small {
-  color: #7c7c7c;
-}
-
-.mini-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #5b7cff, #7a4dff);
+.publicacion button {
+  background: linear-gradient(90deg,#2d8cf0,#145bff);
   color: white;
-  font-weight: bold;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
 }
 
-.post-body h4 {
-  margin-bottom: 10px;
+.publicacion button:hover {
+  opacity: 0.95;
 }
 
-.post-body img {
+.comentario {
+  background: #f7f9fc;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.comentario strong {
+  display: block;
+  color: #172132;
+}
+
+input[type="text"] {
+  padding: 8px 10px;
+  border: 1px solid #dfe6ef;
+  border-radius: 6px;
+  width: calc(100% - 120px);
+  max-width: 600px;
+  margin-right: 8px;
+}
+
+@media (min-width: 768px) {
+  .publicacion {
+    padding: 20px;
+  }
+}
+
+/* Estilos adicionales: forma de crear publicación, botón Ver más y layout */
+.container main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+form[asp-controller="Publicacion"] {
+  background: #f4f7fb;
+  border: 1px solid #e3e9f5;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+form label {
+  font-weight: 600;
+  color: #213247;
+}
+
+form input[type="text"], form textarea {
   width: 100%;
-  max-height: 420px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-top: 12px;
-}
-
-.post-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.btn-like,
-.btn-comment {
-  border-radius: 999px;
-  border: 1px solid #ddd;
-  background: #fff;
-  color: #333;
-}
-
-.comments-box {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.comment-item {
-  display: flex;
-  gap: 8px;
+  padding: 10px;
+  border: 1px solid #d7e0ef;
+  border-radius: 6px;
+  margin-top: 6px;
   margin-bottom: 10px;
-  color: #444;
 }
 
-.comment-form {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
+form button[type="submit"] {
+  background: #1e88ff;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.comment-form input {
-  flex: 1;
+#btnVerMas {
+  display: inline-block;
+  background: transparent;
+  color: #1e88ff;
+  border: 1px solid #d7e0ef;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 18px 0 40px 0;
+}
+
+#btnVerMas:hover {
+  background: #eaf3ff;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: #145bff !important;
+}
+
+footer.footer {
+  background: #f8fbff;
+  padding: 12px 0;
+  margin-top: 30px;
+}
+
+@media (min-width: 992px) {
+  .publicacion img {
+    max-width: 600px;
+  }
+  input[type="text"] {
+    width: 70%;
+  }
 }

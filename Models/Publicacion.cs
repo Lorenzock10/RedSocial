@@ -1,11 +1,16 @@
 namespace RedSocial.Models;
 
-    public class Publicacion
+public class Publicacion
 {
     public int Id { get; set; }
-    public string Imagen { get; set; }
+    public int IdUsuario { get; set; }
     public string Titulo { get; set; }
     public string Descripcion { get; set; }
-    public string IdUsuario { get; set; }
-    public string Fecha { get; set; }
+    public string Imagen { get; set; }
+    public DateTime FechaPublicacion { get; set; }
+
+    public string NombreUsuario { get; set; }
+    public int CantidadMeGusta { get; set; }
+
+    public List<Comentarios> Comentarios { get; set; }
 }

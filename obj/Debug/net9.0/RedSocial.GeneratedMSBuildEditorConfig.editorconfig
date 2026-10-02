@@ -9,53 +9,49 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RedSocial
 build_property.RootNamespace = RedSocial
-build_property.ProjectDir = C:\Users\50049697\Downloads\RedSocial\
+build_property.ProjectDir = C:\Users\cejua\Downloads\RedSocial\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\50049697\Downloads\RedSocial
+build_property.MSBuildProjectDirectory = C:\Users\cejua\Downloads\RedSocial
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/50049697/Downloads/RedSocial/Views/Home/Privacy.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Home/RedSocial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWRTb2NpYWwuY3NodG1s
+[C:/Users/cejua/Downloads/RedSocial/Views/Publicacion/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Shared/Error.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Usuarios/Login.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Usuarios/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Usuarios/Registro.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Usuarios/Registro.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcUmVnaXN0cm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/_ViewImports.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/_ViewStart.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/50049697/Downloads/RedSocial/Views/Shared/_Layout.cshtml]
+[C:/Users/cejua/Downloads/RedSocial/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-j2ud5l3gbl
